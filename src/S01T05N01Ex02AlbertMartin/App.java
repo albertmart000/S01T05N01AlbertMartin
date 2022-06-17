@@ -1,16 +1,19 @@
-package S01T05N01Ex01AlbertMartin;
+package S01T05N01Ex02AlbertMartin;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
 
-        final String DIRECTORY_NAME = "/home/albert/Escritorio/Biblioteca de Contenidos";
-        //añadir excepcion
-        File folder = new File(DIRECTORY_NAME);
+        //Demanem la ruta del directori i creem l'arxiu per poder extreure la llista d'arxius del directori
+        String directoryPath = getDirectoryPath();
+        File folder = new File(directoryPath);
+
+        //Mostrem la llista d'arxius del directori i de tots els seus subdirectoris en ordre alfabètic.
         showFolder(folder);
     }
 
@@ -23,18 +26,25 @@ public class App {
             } else {
                 Arrays.sort(files);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
                 for (File file : files) {
-                    System.out.printf("(%s) %s - %s%n",
-                            file.isDirectory() ? "Directori" : "Fitxer",
+                    System.out.printf("%s %s  %s%n",
+                            file.isDirectory() ? "Directori:" : "- Fitxer",
                             file.getName(),
                             simpleDateFormat.format(file.lastModified()));
 
-                    if (file.isDirectory()) {
+                    //Tornem a cridar el mètode showFolder per llistar els arxius dels subdirectoris recursivament.
+                   if (file.isDirectory()) {
                         showFolder(file);
                         }
                     }
                 }
         }
     }
+
+    private static String getDirectoryPath() {
+        System.out.println("Escriu la ruta del directori que vols llistar");
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
+    }
+
 }
